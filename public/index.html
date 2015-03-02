@@ -67,7 +67,7 @@
         <h1>
         登陆账号
         <a href="javascript:;;" class="backToMenu">  <   </a>
-        <a href="javascript:;;" class="goSignIn">注册</a>
+        <a href="javascript:;;" class="goSignUp">注册</a>
         </h1>
         
         
@@ -79,13 +79,14 @@
         
         <dd class= "middle">
          <i class="icon_password"></i>
-         <input type="password" class="input_password underline" id="login-username" placeholder="Username"/>
+         <input type="password" class="input_password underline" id="login-password" placeholder="Username"/>
          </dd>
          
          <dd class= "middle">
-         <input type="button" id="btn_log"  value="登&nbsp;&nbsp;陆"/>
+         <button id="btn_log">登&nbsp;&nbsp;陆</button>
          
-         </dd><button>denglu</button>
+         </dd>
+        
          </dl>
          
          </form>
@@ -97,11 +98,11 @@
 
 
 <!--注册界面-->
-<script type="text/template" id="template-SignIn">
+<script type="text/template" id="template-SignUp">
 
 
   <!--login-->
-    <div id="signIn">
+    <div id="signUp">
     <form class="signup-form">
 	    <h1>
         注册账号
@@ -116,8 +117,8 @@
         <dd class= "middle">
          <i class="icon_password"></i><input type="password" name="input_password" class="underline" id="signup-password" placeholder="Username" />
          </dd>
-         <dd class= "middle"><button>zhuce</button>
-         <input type="button" id="btn_signIn"  value="注&nbsp;&nbsp;册"/>
+         <dd class= "middle">
+         <button id="btn_signUp">注&nbsp;&nbsp;册</button>
          
          </dd>
          </dl>
@@ -139,7 +140,7 @@
     <div id="activity_header">
 		
 		<div id="activity_header_bar">
-		<a href = "#" id="ul_user">ZhouYu</a>
+		<a href = "#" id="ul_user"><%= AV.User.current().escape("username") %></a>
 		</div>
 		
 		<h1>发布活动</h1>

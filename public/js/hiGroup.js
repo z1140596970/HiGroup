@@ -11,14 +11,15 @@ $(function() {
 	
 var LogInView = AV.View.extend({
     events: {
-      "submit form.login-form": "logIn"
+      "submit form.login-form": "logIn",
       //"submit form.signup-form": "signUp"
+      "click .goSignUp": "goSignup"
     },
         
     el: "#content",
     
     initialize: function() {
-      _.bindAll(this, "logIn");
+      _.bindAll(this, "logIn","goSignup");
       this.render();
     },
 
@@ -45,6 +46,14 @@ var LogInView = AV.View.extend({
 
       return false;
     },
+    
+    goSignup: function(e){
+        var self = this;
+        new SignUpView();
+        self.undelegateEvents();
+        delete self;
+        return false;
+    },
 
     render: function() {
       this.$el.html(_.template($("#template-LogIn").html()));
@@ -54,13 +63,14 @@ var LogInView = AV.View.extend({
 	
 var SignUpView = AV.View.extend({
     events: {
-      "submit form.signup-form": "signUp"
+      "submit form.signup-form": "signUp",
+        "click .goLogIn": "goLogIn"
     },
 
     el: "#content",
     
     initialize: function() {
-      _.bindAll(this,  "signUp");
+      _.bindAll(this,  "signUp","goLogIn");
       this.render();
     },
 
@@ -87,12 +97,41 @@ var SignUpView = AV.View.extend({
 
       return false;
     },
+    
+    goLogIn: function(e){
+        var self = this;
+        new LogInView();
+        self.undelegateEvents();
+        delete self;
+        return false;
+    },
 
     render: function() {
-      this.$el.html(_.template($("#template-SignIn").html()));
+      this.$el.html(_.template($("#template-SignUp").html()));
       this.delegateEvents();
     }
   });
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -138,8 +177,8 @@ mv.page={
 	},
 	
 	
-		signIn: {
-		template:_.template($("#template-SignIn").html()),
+		signUp: {
+		template:_.template($("#template-SignUp").html()),
 		init:function(){},
 		update:update_signPage,
 	
@@ -184,12 +223,12 @@ mv.control.runPage=function(oPage){
 function update_logPage(){//更新登陆页面
   //获取对象
   var oBtn=$("#btn_log");//点击登陆按钮
-  var oASign=$(".goSignIn");//进入注册界面按钮
+  var oASign=$(".goSignUp");//进入注册界面按钮
   var oUserName = $("#login .input_user");
   var oUserPassword = $("#login .input_password");
   oASign.click(function(){//点击进入注册界面按钮
   
-    mv.control.runPage(mv.page.signIn);
+    mv.control.runPage(mv.page.signUp);
   
   });
   oBtn.click(function(){//点击登陆按钮后
@@ -211,10 +250,10 @@ function update_logPage(){//更新登陆页面
 function update_signPage(){//更新注册页面
   
    //获取对象
-  var oBtn=$("#btn_signIn");
+  var oBtn=$("#btn_signUp");
   var oALog=$(".goLogIn");
-   var oUserName = $("#signIn .input_user");
-  var oUserPassword = $("#signIn .input_password");
+   var oUserName = $("#signUp .input_user");
+  var oUserPassword = $("#signUp .input_password");
   oALog.click(function(){//点击登陆按钮
   
 
@@ -362,7 +401,7 @@ function update_SubmitActivity(){//更新发布活动页面
 		 oWhoPay.val(mv.object.user.PayWay.whoPay);
 	}
 	
-	oUserName.val("zhouyu");
+	oUserName.val(AV.User.current().escape("username"));
 	//alert("he");
 	
 }
@@ -428,69 +467,11 @@ function update_SubmitActivity(){//更新发布活动页面
 	//加载执行登陆页面
     
     new LogInView();
-    new SignUpView();
-	mv.control.runPage(mv.page.login);
-	
-    
-	//AV.history.start();
+    //new SignUpView();
 	//mv.control.runPage(mv.page.login);
 	
-	//mv.control.runPage(mv.page.previewActivity);
-	
-	//mv.control.runPage(mv.page.submitActivity);
-	
-	//$("#content").html(_.template($("#login").html()));
-	
-	/*
-	 logIn: function(e) {
-      var self = this;
-      var username = this.$("#login-username").val();
-      var password = this.$("#login-password").val();
-       
+    
 
-      // 登录
-      AV.User.logIn(username, password, {
-        success: function(user) {
-          new ManageTodosView();
-          self.undelegateEvents();
-          delete self;
-        },
-
-        error: function(user, error) {
-          self.$(".login-form .error").html("Invalid username or password. Please try again.").show();
-          self.$(".login-form button").removeAttr("disabled");
-        }
-      });
-
-      this.$(".login-form button").attr("disabled", "disabled");
-
-      return false;
-    },
-
-    signUp: function(e) {
-      var self = this;
-      var username = this.$("#signup-username").val();
-      var password = this.$("#signup-password").val();
-
-      // 注册
-      AV.User.signUp(username, password, { ACL: new AV.ACL() }, {
-        success: function(user) {
-          new ManageTodosView();
-          self.undelegateEvents();
-          delete self;
-        },
-
-        error: function(user, error) {
-          self.$(".signup-form .error").html(error.message).show();
-          self.$(".signup-form button").removeAttr("disabled");
-        }
-      });
-
-      this.$(".signup-form button").attr("disabled", "disabled");
-
-      return false;
-	
-	*/
 	
 });
 
