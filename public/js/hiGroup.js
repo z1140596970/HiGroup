@@ -427,8 +427,9 @@ function update_SubmitActivity(){//更新发布活动页面
 	
 	//加载执行登陆页面
 	mv.control.runPage(mv.page.login);
-	
-	AV.history.start();
+	new LogInView();
+    new SignUpView();
+	//AV.history.start();
 	//mv.control.runPage(mv.page.login);
 	
 	//mv.control.runPage(mv.page.previewActivity);
