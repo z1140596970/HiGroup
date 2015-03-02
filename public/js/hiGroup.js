@@ -7,12 +7,11 @@ $(function() {
 	//LeanCloud初始化
 	AV.$ = jQuery;
 	AV.initialize(appId, appKey);
-    //AV.initialize("tbw9znybfwp0rp31tlpqjpzorvbb9muobq2k675c4y0kcd8e", "ebqe9m0qjlpx00x33vgi0uqenuzjcx894g3ygwonmzio2gbi");
-    //AV.initialize("ensd5v36s76n3hsz6tjlr6bplgi2k4gxs5ud6mq07fx3a0nv", "9hk6413v3no3zsagqm0o2qu1pyl8tejrw37xqrhvm3r7jw08");
+    
 	
 var LogInView = AV.View.extend({
     events: {
-      "submit form.login-form": "logIn",
+      "submit form.login-form": "logIn"
       //"submit form.signup-form": "signUp"
     },
         
@@ -53,7 +52,47 @@ var LogInView = AV.View.extend({
     }
   });
 	
-	
+var SignUpView = AV.View.extend({
+    events: {
+      "submit form.signup-form": "signUp"
+    },
+
+    el: "#content",
+    
+    initialize: function() {
+      _.bindAll(this,  "signUp");
+      this.render();
+    },
+
+    signUp: function(e) {
+      var self = this;
+      var username = this.$("#signup-username").val();
+      var password = this.$("#signup-password").val();
+
+      // 注册
+      AV.User.signUp(username, password, { ACL: new AV.ACL() }, {
+        success: function(user) {
+          mv.control.runPage(mv.page.submitActivity);
+          self.undelegateEvents();
+          delete self;
+        },
+
+        error: function(user, error) {
+          self.$(".signup-form .error").html(error.message).show();
+          self.$(".signup-form button").removeAttr("disabled");
+        }
+      });
+
+      this.$(".signup-form button").attr("disabled", "disabled");
+
+      return false;
+    },
+
+    render: function() {
+      this.$el.html(_.template($("#template-SignIn").html()));
+      this.delegateEvents();
+    }
+  });
     
     
     
