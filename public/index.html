@@ -83,7 +83,7 @@
          </dd>
          
          <dd class= "middle">
-         <button id="btn_log">登&nbsp;&nbsp;陆</button>
+         <button type="submit" id="btn_log">登&nbsp;&nbsp;陆</button>
          
          </dd>
         
@@ -140,7 +140,7 @@
     <div id="activity_header">
 		
 		<div id="activity_header_bar">
-		<a href = "#" id="ul_user"><%= AV.User.current().escape("username") %></a>
+		<a href = "#" id="ul_user"><%= AV.User.current().escape("username") %></a><a href="#" class="log-out">Log out</a>
 		</div>
 		
 		<h1>发布活动</h1>

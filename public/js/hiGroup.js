@@ -39,6 +39,7 @@ var LogInView = AV.View.extend({
         error: function(user, error) {
           self.$(".login-form .error").html("Invalid username or password. Please try again.").show();
           self.$(".login-form button").removeAttr("disabled");
+          alert("username or password error");
         }
       });
 
@@ -119,7 +120,24 @@ var SignUpView = AV.View.extend({
     
     
     
-    
+    // 程序的主体视图，控制 个人中心的视图和 登录视图
+  var AppView = AV.View.extend({
+
+    //  跟已经在html里的节点绑定起来，而不是再生成一个元素节点
+    el: $("#content"),
+
+    initialize: function() {
+      this.render();
+    },
+
+    render: function() {
+      if (AV.User.current()) {
+        mv.control.runPage(mv.page.submitActivity);
+      } else {
+        new LogInView();
+      }
+    }
+  });
     
     
     
@@ -312,6 +330,16 @@ function update_SubmitActivity(){//更新发布活动页面
 	
 	$("#ul_user").click(function(){
 		alert("你点击了用户");
+        var user = AV.User.current();
+        var username_temp=user.get("username");
+	});
+    
+    $(".log-out").click(function(){
+        AV.User.logOut();
+        new LogInView();
+        this.undelegateEvents();
+        delete this;
+        alert("您已退出");
 	});
 	
 	//属性改变后更新
@@ -465,8 +493,8 @@ function update_SubmitActivity(){//更新发布活动页面
 	//加载首页页面
 	
 	//加载执行登陆页面
-    
-    new LogInView();
+    new AppView;
+    //new LogInView();
     //new SignUpView();
 	//mv.control.runPage(mv.page.login);
 	
